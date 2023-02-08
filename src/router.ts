@@ -31,3 +31,5 @@ router.get('/update-points/:id', (req, res) => {});
 router.put('/update-points/:id', (req, res) => {});
 router.post('/update-points', (req, res) => {});
 router.delete('/update-points/:id', (req, res) => {});
+
+export default router;
