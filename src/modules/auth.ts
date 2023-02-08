@@ -18,4 +18,22 @@ export const protect = (req, res, next) => {
 		res.json({ message: 'Not authorized' });
 		return;
 	}
+
+	const [, token] = bearer.split(' ');
+
+	if (!token) {
+		res.status(401);
+		res.json({ message: 'Invalid token' });
+		return;
+	}
+
+	try {
+		const decoded = jwt.verify(token, process.env.WT_SECRET);
+		req.user = decoded;
+		next();
+	} gitcatch (error) {
+		res.status(401);
+		res.json({ message: 'Invalid token' });
+		return;
+	}
 };
