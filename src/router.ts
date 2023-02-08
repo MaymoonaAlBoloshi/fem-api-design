@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/products', (req, res) => {
 	res.status(200);
-	res.json({ message: 'Hello World!' });
+	res.json({ message: req.abc, products: [] });
 });
 router.get('/products/:id', (req, res) => {});
 router.put('/products/:id', (req, res) => {});
