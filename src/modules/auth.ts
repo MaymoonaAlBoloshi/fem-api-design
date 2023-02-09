@@ -1,4 +1,13 @@
 import jwt from 'jsonwebtoken';
+import bicrypt from 'bcrypt';
+
+export const comparePassword = (password: string, hash: string) => {
+	return bicrypt.compare(password, hash);
+};
+
+export const hashPassword = (password: string) => {
+	return bicrypt.hash(password, 10);
+};
 
 export const generateToken = (user) => {
 	return jwt.sign(
@@ -31,7 +40,7 @@ export const protect = (req, res, next) => {
 		const decoded = jwt.verify(token, process.env.WT_SECRET);
 		req.user = decoded;
 		next();
-	} gitcatch (error) {
+	} catch (error) {
 		res.status(401);
 		res.json({ message: 'Invalid token' });
 		return;
