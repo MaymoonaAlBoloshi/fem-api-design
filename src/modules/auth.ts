@@ -15,7 +15,7 @@ export const generateToken = (user) => {
 			_id: user.id,
 			name: user.name,
 		},
-		process.env.WT_SECRET
+		process.env.JWT_SECRET
 	);
 };
 
@@ -32,12 +32,12 @@ export const protect = (req, res, next) => {
 
 	if (!token) {
 		res.status(401);
-		res.json({ message: 'Invalid token' });
+		res.json({ message: 'no token found' });
 		return;
 	}
 
 	try {
-		const decoded = jwt.verify(token, process.env.WT_SECRET);
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		req.user = decoded;
 		next();
 	} catch (error) {

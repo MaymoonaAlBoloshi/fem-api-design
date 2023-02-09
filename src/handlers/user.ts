@@ -12,7 +12,7 @@ export const createUser = async (req, res) => {
 
 	const token = generateToken(user);
 
-	res.json(token);
+	res.json({ token });
 };
 
 export const loginUser = async (req, res) => {
@@ -31,5 +31,5 @@ export const loginUser = async (req, res) => {
 	}
 
 	const token = generateToken(user);
-	res.json(token);
+	res.json({ token });
 };
