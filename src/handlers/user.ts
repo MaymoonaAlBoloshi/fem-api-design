@@ -1,5 +1,5 @@
 import prisma from '../../db';
-import { generateToken, hashPassword } from '../modules/auth';
+import { comparePassword, generateToken, hashPassword } from '../modules/auth';
 
 export const createUser = async (req, res) => {
 	const user = await prisma.user.create({
@@ -12,5 +12,24 @@ export const createUser = async (req, res) => {
 
 	const token = generateToken(user);
 
+	res.json(token);
+};
+
+export const loginUser = async (req, res) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			email: req.body.email,
+		},
+	});
+
+	const isValid = await comparePassword(req.body.password, user.password);
+
+	if (!isValid) {
+		res.status(401);
+		res.json({ message: 'Invalid credentials' });
+		return;
+	}
+
+	const token = generateToken(user);
 	res.json(token);
 };
