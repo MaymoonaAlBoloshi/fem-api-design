@@ -25,7 +25,7 @@ model Product {
   createdAt  DateTime @default(now())
   belongToId String
   belongTo   User     @relation(fields: [belongToId], references: [id])
-  Update     Update[]
+  updates     Update[]
 
   @@unique([id, belongToId])
 }
