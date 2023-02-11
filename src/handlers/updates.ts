@@ -44,7 +44,7 @@ export const createUpdate = async (req, res) => {
 	try {
 		const product = await prisma.product.findUnique({
 			where: {
-				id: req.body.id,
+				id: req.body.productId, 
 			},
 		});
 
@@ -55,8 +55,17 @@ export const createUpdate = async (req, res) => {
 		}
 
 		const update = await prisma.update.create({
-			data: req.body,
-		});
+			data: {
+				body: req.body.body,
+				title: req.body.title,
+				product: {
+					connect: {
+						id: product.id,
+					},
+				},
+			}
+			});
+		
 
 		res.json({ data: update });
 	} catch (err) {
@@ -141,4 +150,5 @@ export const deleteUpdate = async (req, res) => {
 		res.status(500);
 		res.json({ message: 'Internal server error' });
 	}
-};
+}}
+
