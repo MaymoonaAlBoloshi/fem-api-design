@@ -27,4 +27,10 @@ app.use('/api', protect, router);
 app.post('/user', createUser);
 app.post('/login', loginUser);
 
+app.use((err, req, res, next) => {
+	console.log(err);
+	res.status(err.status || 500);
+	res.json({ message: err.message });
+});
+
 export default app;

@@ -1,19 +1,13 @@
 import prisma from '../../db';
 
 export const getProducts = async (req, res) => {
-	try {
-		const products = await prisma.product.findMany({
-			where: {
-				belongToId: req.user.id,
-			},
-		});
+	const products = await prisma.product.findMany({
+		where: {
+			belongToId: req.user.id,
+		},
+	});
 
-		res.json({ data: products });
-	} catch (err) {
-		console.error(err);
-		res.status(500);
-		res.json({ message: 'Internal server error' });
-	}
+	res.json({ data: products });
 };
 
 export const getProduct = async (req, res) => {
@@ -31,20 +25,14 @@ export const getProduct = async (req, res) => {
 
 // not working
 export const createProduct = async (req, res) => {
-	try {
-		const product = await prisma.product.create({
-			data: {
-				name: req.body.name,
-				belongToId: req.user.id,
-			},
-		});
+	const product = await prisma.product.create({
+		data: {
+			name: req.body.name,
+			belongToId: req.user.id,
+		},
+	});
 
-		res.json({ data: product });
-	} catch (err) {
-		console.error(err);
-		res.status(500);
-		res.json({ message: 'Internal server error' });
-	}
+	res.json({ data: product });
 };
 
 // not working
