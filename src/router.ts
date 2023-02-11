@@ -1,6 +1,19 @@
 import { Router } from 'express';
 import { body, oneOf, validationResult } from 'express-validator';
-import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from './handlers/products';
+import {
+	createProduct,
+	deleteProduct,
+	getProduct,
+	getProducts,
+	updateProduct,
+} from './handlers/products';
+import {
+	createUpdate,
+	deleteUpdate,
+	getOneUpdate,
+	getUpdates,
+	updateUpdate,
+} from './handlers/updates';
 import { handleInputError } from './modules/midldleware';
 const router = Router();
 
@@ -32,25 +45,26 @@ router.delete('/products/:id', deleteProduct);
  * Updates
  */
 
-router.get('/updates', (req, res) => {});
-router.get('/updates/:id', (req, res) => {});
+router.get('/updates', getUpdates);
+router.get('/updates/:id', getOneUpdate);
 router.put(
 	'/updates/:id',
 	body('title').optional(),
 	body('body').optional(),
-	body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']),
+	body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']).optional(),
 	body('version').optional(),
 	handleInputError,
-	(req, res) => {}
+	updateUpdate
 );
 router.post(
 	'/updates',
 	body('title').exists().isString(),
 	body('body').exists().isString(),
+	body('productId').exists().isString(),
 	handleInputError,
-	(req, res) => {}
+	createUpdate
 );
-router.delete('/updates/:id', (req, res) => {});
+router.delete('/updates/:id', deleteUpdate);
 
 /*
  * Update points
