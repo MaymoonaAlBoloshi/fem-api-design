@@ -16,20 +16,18 @@ model User {
   username  String
   password  String
   createdAt DateTime  @default(now())
-  Product   Product[]
+  products   Product[]
 }
 
 model Product {
   id         String   @id @default(uuid())
   name       String   @db.VarChar(255)
-  price      Float
-  quantity   Int
   createdAt  DateTime @default(now())
   belongToId String
   belongTo   User     @relation(fields: [belongToId], references: [id])
   Update     Update[]
 
-  // @@index([id, belongToId]) for future optimization
+  @@unique([id, belongToId])
 }
 
 enum UPDATE_STATUSES {
