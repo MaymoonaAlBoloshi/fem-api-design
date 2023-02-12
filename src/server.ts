@@ -28,9 +28,14 @@ app.post('/user', createUser);
 app.post('/login', loginUser);
 
 app.use((err, req, res, next) => {
-	console.log(err);
-	res.status(err.status || 500);
-	res.json({ message: err.message });
+	if (err.name === 'auth') {
+		res.status(401).json({ message: 'Unauthorized' });
+	}
+	if (err.name === 'input') {
+		res.status(400).json({ message: 'Bad request' });
+	} else {
+		res.status(500).json({ message: 'Internal server error' });
+	}
 });
 
 export default app;
